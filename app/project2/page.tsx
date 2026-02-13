@@ -17,23 +17,24 @@ export default function ProjectPagina() {
           Voor mijn eigen bedrijf heb ik een mockup gemaakt voor een klant 
         </p>
 
-        {/* 3. De Foto (Aanklikbaar) */}
-        <div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 shadow-lg transition-transform hover:scale-[1.02]">
-          <Link href="/project1" className="cursor-pointer"> 
-            <Image
-              src="/project2foto.png" // Zorg dat dit bestand in je 'public' map staat
-              alt="Project Screenshot"
-              width={800}
-              height={500}
-              className="object-cover"
-              priority
-            />
-          </Link>
-        </div>
+        {/* 3. De Foto (Aanklikbaar om te openen) */}
+<div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 shadow-lg transition-transform hover:scale-[1.02]">
+  {/* Verander href naar de naam van je foto en voeg target="_blank" toe */}
+  <Link href="/project2-foto.png" target="_blank" className="cursor-pointer"> 
+    <Image
+      src="/project3-foto.png" 
+      alt="Project Screenshot"
+      width={800}
+      height={500}
+      className="object-cover"
+      priority
+    />
+  </Link>
+</div>
 
         {/* 4. De Knop (Terug naar Home) */}
         <Button asChild variant="outline" className="mt-4">
-          <Link href="holthofj/home">
+          <Link href="/home">
             Terug naar Home
           </Link>
         </Button>

@@ -2,44 +2,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function Project1() {
+export default function ProjectPagina() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 bg-white dark:bg-black">
-      <div className="max-w-3xl w-full space-y-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white p-8 dark:bg-black">
+      <main className="flex w-full max-w-2xl flex-col items-center gap-8 text-center">
         
-        {/* Titel en beschrijving */}
-        <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight">Project 1: [Naam]</h1>
-          <p className="text-zinc-500">Klik op de afbeelding hieronder om de live demo of broncode te bekijken.</p>
-        </div>
+        {/* 1. De H1 (Titel) */}
+        <h1 className="text-4xl font-bold text-black dark:text-white">
+          Mockup voor een klant
+        </h1>
 
-        {/* De Aanklikbare Afbeelding */}
-        <div className="relative group overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
-          <Link href="https://github.com/joaquinholthof/les1" target="_blank">
-            <div className="overflow-hidden">
-              <Image 
-                src="/project1-screenshot.png" // Zorg dat deze foto in je 'public' map staat!
-                alt="Screenshot van mijn project"
-                width={800}
-                height={450}
-                className="transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            {/* Overlay die verschijnt bij hover */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-              <span className="text-white font-bold text-lg bg-black/50 px-4 py-2 rounded-full">
-                Bekijk Project
-              </span>
-            </div>
+        {/* 2. De P (Beschrijving) */}
+        <p className="text-lg text-zinc-600 dark:text-zinc-400">
+          Voor mijn eigen bedrijf heb ik een mockup gemaakt voor een klant 
+        </p>
+
+        {/* 3. De Foto (Aanklikbaar) */}
+        <div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 shadow-lg transition-transform hover:scale-[1.02]">
+          <Link href="/project1" className="cursor-pointer"> 
+            <Image
+              src="/project2foto.png" // Zorg dat dit bestand in je 'public' map staat
+              alt="Project Screenshot"
+              width={800}
+              height={500}
+              className="object-cover"
+              priority
+            />
           </Link>
         </div>
 
-        <div className="pt-8">
-          <Button asChild variant="outline">
-            <Link href="holthofj/home">← Terug naar Home</Link>
-          </Button>
-        </div>
-      </div>
-    </main>
+        {/* 4. De Knop (Terug naar Home) */}
+        <Button asChild variant="outline" className="mt-4">
+          <Link href="holthofj/home">
+            Terug naar Home
+          </Link>
+        </Button>
+
+      </main>
+    </div>
   );
 }

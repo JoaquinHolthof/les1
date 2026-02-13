@@ -35,7 +35,7 @@ export default function Home() {
           </Button>
           
           <Button variant="outline" asChild>
-            <a href="mailto:jouw@email.com">
+            <a href="/contact">
               Contact opnemen
             </a>
           </Button>

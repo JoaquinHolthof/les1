@@ -24,6 +24,9 @@ export default function GlobalNavbar() {
           <a href="/about" className="hover:underline">About</a>
           <a href="/contact" className="hover:underline">Contact</a>
           <a href="/login" className="hover:underline">Login</a>
+          <a href="/project1" className="hover:underline">Project 1</a>
+          <a href="/project2" className="hover:underline">Project 2</a>
+          <a href="/project3" className="hover:underline">Project 3</a>
         </nav>
       </SidebarSlider>
     </>

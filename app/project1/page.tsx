@@ -20,9 +20,9 @@ export default function ProjectPagina() {
         {/* 3. De Foto (Aanklikbaar om te openen) */}
 <div className="relative w-full overflow-hidden rounded-xl border border-zinc-200 shadow-lg transition-transform hover:scale-[1.02]">
   {/* Verander href naar de naam van je foto en voeg target="_blank" toe */}
-  <Link href="/pproject1-mockup.png" target="_blank" className="cursor-pointer"> 
+  <Link href="/project1-mockup.png" target="_blank" className="cursor-pointer"> 
     <Image
-      src="/project3-foto.png" 
+      src="/project1-mockup.png" 
       alt="Project Screenshot"
       width={800}
       height={500}

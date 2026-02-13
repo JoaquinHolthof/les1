@@ -22,7 +22,7 @@ export default function ProjectPagina() {
   {/* Verander href naar de naam van je foto en voeg target="_blank" toe */}
   <Link href="/project2-foto.png" target="_blank" className="cursor-pointer"> 
     <Image
-      src="/project3-foto.png" 
+      src="/project2-foto.png" 
       alt="Project Screenshot"
       width={800}
       height={500}

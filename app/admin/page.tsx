@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, Save, X, Edit3, Globe } from "lucide-react";
+// ExternalLink toegevoegd aan de imports
+import { Plus, Trash2, Save, X, Edit3, Globe, ExternalLink } from "lucide-react";
 
 interface AdminData {
   title: string;
@@ -63,6 +64,27 @@ export default function AdminPage() {
           <span className="font-medium">Content Published Successfully!</span>
         </div>
       )}
+
+      {/* NIEUWE SECTIE: Google Form Knop bovenaan */}
+      <div className="animate-in fade-in slide-in-from-top duration-1000">
+        <a 
+          href="https://docs.google.com/forms/d/e/1FAIpQLSc1R1B5Vp4erze6S75_fZVpnOr7TZ75fsqQF6cxaIekUlHAuA/viewform?usp=publish-editor" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="group flex items-center justify-between bg-purple-600 text-white p-5 rounded-3xl shadow-lg shadow-purple-200 hover:bg-purple-700 transition-all active:scale-[0.98]"
+        >
+          <div className="flex items-center gap-4">
+            <div className="bg-purple-500 p-2 rounded-xl">
+              <Edit3 size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-widest opacity-80">Feedback & Support</p>
+              <h3 className="font-bold text-lg">Vragen of suggesties? Vul het formulier in</h3>
+            </div>
+          </div>
+          <ExternalLink size={24} className="mr-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </a>
+      </div>
 
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-end border-b pb-8 gap-6">

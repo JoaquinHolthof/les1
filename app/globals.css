@@ -1,0 +1,141 @@
+/* ── Fonts ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "tailwindcss-animate";
+
+/* ── Design Tokens ─────────────────────────────────────── */
+:root {
+  /* Palette */
+  --bg:          #FAFAF8;
+  --fg:          #0D0D0D;
+  --accent:      #C8102E;
+  --accent-dim:  rgba(200, 16, 46, 0.08);
+  --border:      #EAE8E3;
+  --muted:       #9E9B94;
+  --surface:     #FFFFFF;
+  --dark:        #1A1A1A;
+
+  /* Fonts */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+  --font-ui:    'Syne', system-ui, sans-serif;
+  --font-title: 'Syne', system-ui, sans-serif;
+
+  /* Tailwind compat */
+  --background:         var(--bg);
+  --foreground:         var(--fg);
+  --primary:            var(--fg);
+  --primary-foreground: var(--bg);
+  --border-color:       var(--border);
+  --ring:               var(--fg);
+  --radius:             0.5rem;
+}
+
+/* ── Tailwind theme bridge ─────────────────────────────── */
+@theme inline {
+  --color-background:         var(--bg);
+  --color-foreground:         var(--fg);
+  --color-primary:            var(--fg);
+  --color-primary-foreground: var(--bg);
+  --color-accent:             var(--accent);
+  --color-border:             var(--border);
+  --color-ring:               var(--fg);
+  --font-sans:                var(--font-sans);
+  --font-serif:               var(--font-serif);
+  --font-mono:                var(--font-mono);
+}
+
+/* ── Base Reset ────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    cursor: none !important;
+  }
+
+  @media (max-width: 767px) {
+    *, *::before, *::after {
+      cursor: auto !important;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Headings use Playfair Display */
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+
+  h4, h5, h6 {
+    font-family: var(--font-title);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+  }
+
+  p {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: color-mix(in srgb, var(--fg) 65%, transparent);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: #FFFFFF;
+  }
+}
+
+/* ── Utility classes ───────────────────────────────────── */
+.font-serif  { font-family: var(--font-serif)  !important; }
+.font-sans   { font-family: var(--font-sans)   !important; }
+.font-mono   { font-family: var(--font-mono)   !important; }
+.font-title  { font-family: var(--font-title)  !important; }
+
+.text-accent { color: var(--accent); }
+.bg-dark     { background-color: var(--dark); }
+.bg-surface  { background-color: var(--surface); }
+.border-editorial { border-color: var(--border); }
+
+/* ── Marquee animation ─────────────────────────────────── */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 24s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 3px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }

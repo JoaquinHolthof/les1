@@ -12,10 +12,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useSpring, useTransform } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const ACCENT = "#C8102E";
 
 export default function CustomCursor() {
+  const isMobile = useIsMobile();
+
   // ── Raw mouse position (updates every frame) ──────────────────────────────
   const mouseX = useRef(-200);
   const mouseY = useRef(-200);
@@ -97,6 +100,10 @@ export default function CustomCursor() {
       document.documentElement.removeEventListener("mouseenter", onEnter);
     };
   }, [visible]);
+
+  // Touch-apparaten hebben geen muiscursor — render niets op mobile.
+  // Dit voorkomt ook dat de globale cursor:none CSS-regel de native touch-UX verstoort.
+  if (isMobile) return null;
 
   return (
     <>

@@ -211,7 +211,7 @@ function GradientBackground() {
           position: "absolute",
           bottom: "10%",
           right: "5%",
-          width: "50vw",
+          width: "0vw",
           height: "50vh",
           background: "radial-gradient(circle, oklch(0.85 0.2 100 / 0.08) 0%, transparent 70%)",
           filter: "blur(120px)",

@@ -53,7 +53,7 @@ function PillLink({
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           style={{
             position:     "absolute",
-            inset:        -3,
+            inset:        -1,
             borderRadius: 99,
             border:       `1.5px solid ${ACCENT}`,
             pointerEvents: "none",

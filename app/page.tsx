@@ -50,7 +50,7 @@ const STATS = [
   { num: "10+",  label: "Projecten",   sub: "Afgerond" },
   { num: "3+",   label: "Jaar",        sub: "Ervaring"  },
   { num: "100%", label: "Responsive",  sub: "Design"    },
-  { num: "GTM",  label: "Gecertified", sub: "Analytics" },
+  { num: "∞",  label: "Coffee", sub: "Refills" },
 ];
 
 const SKILLS = [
@@ -653,7 +653,7 @@ export default function HomePage() {
               <div style={{ position: "relative", display: "inline-flex" }}>
                 {/* Pulse ring — verhoogt click-through rate op hero CTA */}
                 <motion.div
-                  animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0, 0.5] }}
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0, 0.5] }}
                   transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", repeatDelay: 0.6 }}
                   style={{
                     position:     "absolute",

@@ -285,7 +285,7 @@ export default function WorkPage() {
             color:         FG,
             margin:        0,
           }}>
-            Let&apos;s werk samen.
+            Let&apos;s connect.
           </p>
         </div>
         <Link

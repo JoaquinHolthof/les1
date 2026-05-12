@@ -854,7 +854,7 @@ export default function HomePage() {
             — Nieuwe opdracht?
           </div>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 700, fontStyle: "italic", letterSpacing: "-0.03em", color: "#fff", margin: 0, lineHeight: 1.05 }}>
-            Let&apos;s werk samen.
+            Let&apos;s connect.
           </h2>
         </div>
 

@@ -204,6 +204,23 @@ function Field({ field, value, isEditing, onChange }: {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const isMobile     = useIsMobile();
+
+  // ── Password gate ──────────────────────────────────────────────────────────
+  const [unlocked,   setUnlocked]   = useState(false);
+  const [pwInput,    setPwInput]    = useState("");
+  const [pwError,    setPwError]    = useState(false);
+
+  function handleUnlock(e: React.FormEvent) {
+    e.preventDefault();
+    if (pwInput === "AP") {
+      setUnlocked(true);
+    } else {
+      setPwError(true);
+      setPwInput("");
+      setTimeout(() => setPwError(false), 2400);
+    }
+  }
+
   const [view,       setView]       = useState<"overview" | string>("overview");
   const [isEditing,  setIsEditing]  = useState(false);
   const [isSaved,    setIsSaved]    = useState(false);
@@ -235,6 +252,116 @@ export default function AdminPage() {
     setIsEditing(false);
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
+  }
+
+  // ── Password gate screen ────────────────────────────────────────────────────
+  if (!unlocked) {
+    return (
+      <div style={{
+        minHeight:      "100vh",
+        background:     BG,
+        display:        "flex",
+        alignItems:     "center",
+        justifyContent: "center",
+        padding:        "2rem",
+        fontFamily:     "'Inter', sans-serif",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            background:   SURFACE,
+            border:       `1px solid ${BORDER}`,
+            borderRadius: 20,
+            padding:      "2.75rem 2.5rem",
+            maxWidth:     400,
+            width:        "100%",
+            textAlign:    "center",
+            boxShadow:    "0 8px 48px rgba(0,0,0,0.07)",
+          }}
+        >
+          {/* JH avatar */}
+          <div style={{
+            width: 56, height: 56, borderRadius: "50%", background: ACCENT,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 1.75rem",
+          }}>
+            <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 14, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>JH</span>
+          </div>
+
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.85rem", fontWeight: 700, fontStyle: "italic", letterSpacing: "-0.02em", color: FG, margin: "0 0 0.5rem" }}>
+            Admin Panel<span style={{ color: ACCENT }}>.</span>
+          </h1>
+          <p style={{ fontFamily: "'Syne', sans-serif", fontSize: 12, color: MUTED, letterSpacing: "0.04em", margin: "0 0 2.25rem" }}>
+            Beveiligde omgeving — voer het wachtwoord in.
+          </p>
+
+          <form onSubmit={handleUnlock} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+            <input
+              type="password"
+              value={pwInput}
+              onChange={(e) => setPwInput(e.target.value)}
+              placeholder="Wachtwoord"
+              autoFocus
+              style={{
+                width:        "100%",
+                padding:      "13px 16px",
+                borderRadius: 10,
+                border:       `1.5px solid ${pwError ? ACCENT : BORDER}`,
+                fontFamily:   "'Inter', sans-serif",
+                fontSize:     14,
+                color:        FG,
+                background:   BG,
+                outline:      "none",
+                boxSizing:    "border-box",
+                transition:   "border-color 0.2s",
+                textAlign:    "center",
+                letterSpacing: "0.08em",
+              }}
+            />
+
+            <AnimatePresence>
+              {pwError && (
+                <motion.p
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  style={{ fontFamily: "'Syne', sans-serif", fontSize: 11, color: ACCENT, margin: 0, letterSpacing: "0.04em" }}
+                >
+                  Ongeldig wachtwoord — probeer opnieuw.
+                </motion.p>
+              )}
+            </AnimatePresence>
+
+            <button
+              type="submit"
+              style={{
+                padding:      "13px",
+                borderRadius: 10,
+                background:   FG,
+                color:        "#fff",
+                border:       "none",
+                cursor:       "pointer",
+                fontFamily:   "'Syne', sans-serif",
+                fontSize:     13,
+                fontWeight:   700,
+                letterSpacing: "0.04em",
+                transition:   "background 0.2s",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = ACCENT)}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = FG)}
+            >
+              Toegang krijgen →
+            </button>
+          </form>
+
+          <p style={{ fontFamily: "'Syne', sans-serif", fontSize: 11, color: MUTED, margin: "1.75rem 0 0", letterSpacing: "0.04em" }}>
+            Joaquin Holthof Portfolio — v1.0
+          </p>
+        </motion.div>
+      </div>
+    );
   }
 
   return (

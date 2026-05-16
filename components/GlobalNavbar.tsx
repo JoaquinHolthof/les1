@@ -30,41 +30,67 @@ const BORDER = "#EAE8E3";
 const FG     = "#0D0D0D";
 
 // ─── Desktop: white pill link ─────────────────────────────────────────────────
-// Recruiter hint: 'Work' is het primaire doel van een recruiter die dit portfolio
-// bezoekt. Visueel staat het centraal tussen Home en Contact.
 function PillLink({
-  label, href, active, id, analyticsLabel, highlight = false,
+  label, href, active, id, analyticsLabel, highlight = false, cta = false,
 }: {
   label: string;
   href: string;
   active: boolean;
   id: string;
   analyticsLabel: string;
-  /** highlight = true geeft 'Work' een subtiele rode ring om de aandacht te trekken */
   highlight?: boolean;
+  cta?: boolean;
 }) {
   const [hov, setHov] = useState(false);
+
+  if (cta) {
+    return (
+      <Link
+        href={href}
+        id={id}
+        data-analytics-label={analyticsLabel}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          fontFamily:     "'Syne', sans-serif",
+          fontSize:       13,
+          fontWeight:     700,
+          letterSpacing:  "0.01em",
+          color:          hov ? "#fff" : ACCENT,
+          textDecoration: "none",
+          padding:        "7px 16px",
+          borderRadius:   99,
+          background:     hov ? ACCENT : "rgba(200,16,46,0.08)",
+          border:         `1.5px solid ${hov ? ACCENT : "rgba(200,16,46,0.35)"}`,
+          transition:     "background 0.2s ease, color 0.2s ease, border-color 0.2s ease",
+          whiteSpace:     "nowrap",
+          display:        "block",
+        }}
+      >
+        {label}
+      </Link>
+    );
+  }
+
   return (
     <div style={{ position: "relative", display: "inline-flex" }}>
-      {/* Subtiele ring op Work-link: visual cue voor recruiter behavior flow */}
       {highlight && !active && (
         <motion.div
-          animate={{ opacity: [0.35, 0, 0.35] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ opacity: [0.25, 0, 0.25] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           style={{
-            position:     "absolute",
-            inset:        -1,
-            borderRadius: 99,
-            border:       `1.5px solid ${ACCENT}`,
+            position:      "absolute",
+            inset:         -1,
+            borderRadius:  99,
+            border:        `1.5px solid ${ACCENT}`,
             pointerEvents: "none",
-            zIndex:       0,
+            zIndex:        0,
           }}
         />
       )}
       <Link
         href={href}
         id={id}
-        // Tracking: welke nav-links worden het meest gebruikt door bezoekers? (Behavior Flow)
         data-analytics-label={analyticsLabel}
         onMouseEnter={() => setHov(true)}
         onMouseLeave={() => setHov(false)}
@@ -106,7 +132,6 @@ function UtilLink({
     <Link
       href={href}
       id={id}
-      // Tracking: admin/login gebruik (utility flow, gescheiden van recruiter flow)
       data-analytics-label={analyticsLabel}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
@@ -126,7 +151,72 @@ function UtilLink({
   );
 }
 
-// ─── Hamburger icon (3 lines → X morphing) ────────────────────────────────────
+// ─── Profile avatar (persoon-icoon → /user-profile) ───────────────────────────
+function ProfileAvatar({ pathname }: { pathname: string }) {
+  const [hov, setHov] = useState(false);
+  const active = pathname === "/user-profile";
+  return (
+    <div style={{ position: "relative" }}>
+      {hov && (
+        <div style={{
+          position:      "absolute",
+          bottom:        "calc(100% + 8px)",
+          left:          "50%",
+          transform:     "translateX(-50%)",
+          background:    "rgba(13,13,13,0.92)",
+          color:         "#fff",
+          fontFamily:    "'Syne', sans-serif",
+          fontSize:      11,
+          fontWeight:    600,
+          letterSpacing: "0.04em",
+          padding:       "5px 10px",
+          borderRadius:  6,
+          whiteSpace:    "nowrap",
+          pointerEvents: "none",
+        }}>
+          Mijn profiel
+        </div>
+      )}
+      <Link
+        href="/user-profile"
+        id="nav-profile-avatar"
+        data-analytics-label="nav_profile_avatar_click"
+        aria-label="Mijn profiel"
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          display:        "flex",
+          alignItems:     "center",
+          justifyContent: "center",
+          width:          32,
+          height:         32,
+          borderRadius:   "50%",
+          background:     hov ? "#fff" : ACCENT,
+          flexShrink:     0,
+          textDecoration: "none",
+          transition:     "background 0.2s ease, box-shadow 0.2s ease",
+          boxShadow:      hov
+            ? "0 0 0 3px rgba(200,16,46,0.35)"
+            : active
+              ? `0 0 0 2px ${ACCENT}`
+              : "none",
+        }}
+      >
+        <svg
+          width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke={hov ? ACCENT : "#fff"} strokeWidth="2"
+          strokeLinecap="round" strokeLinejoin="round"
+          style={{ transition: "stroke 0.2s ease", display: "block" }}
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+        </svg>
+      </Link>
+    </div>
+  );
+}
+
+// ─── Hamburger icon ────────────────────────────────────────────────────────────
 function HamburgerIcon({ open, color }: { open: boolean; color: string }) {
   const bar: React.CSSProperties = {
     display:         "block",
@@ -158,22 +248,17 @@ export default function GlobalNavbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close menu on route change
   useEffect(() => { setIsOpen(false); }, [pathname]);
 
-  // Prevent body scroll when overlay is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
-  // ── Recruiter Behavior Flow hiërarchie ──────────────────────────────────────
-  // MAIN_LINKS = primaire navigatiestroom voor recruiters: Home → Work → Contact
-  // UTIL_LINKS = admin-functies, visueel teruggedrongen in dark utility pill
   const MAIN_LINKS = [
-    { label: "Home",    href: "/",        id: "nav-home",    analyticsLabel: "nav_home_click",    highlight: false },
-    { label: "Work",    href: "/work",    id: "nav-work",    analyticsLabel: "nav_work_click",    highlight: true  },
-    { label: "Contact", href: "/contact", id: "nav-contact", analyticsLabel: "nav_contact_click", highlight: false },
+    { label: "Home",    href: "/",        id: "nav-home",    analyticsLabel: "nav_home_click",    highlight: false, cta: false },
+    { label: "Work",    href: "/work",    id: "nav-work",    analyticsLabel: "nav_work_click",    highlight: true,  cta: false },
+    { label: "Contact", href: "/contact", id: "nav-contact", analyticsLabel: "nav_contact_click", highlight: false, cta: true  },
   ];
   const UTIL_LINKS = [
     { label: "Admin", href: "/admin", id: "nav-admin", analyticsLabel: "nav_admin_click" },
@@ -201,28 +286,27 @@ export default function GlobalNavbar() {
           pointerEvents:  "none",
         }}
       >
-        {/* White pill — primaire navigatie (recruiter flow) */}
+        {/* White pill */}
         <motion.div
           initial={{ y: -70, opacity: 0 }}
           animate={{ y: 0,   opacity: 1 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            pointerEvents:       "auto",
-            display:             "flex",
-            alignItems:          "center",
-            background:          "rgba(255,255,255,0.96)",
-            backdropFilter:      "blur(20px)",
-            WebkitBackdropFilter:"blur(20px)",
-            border:              `1px solid ${BORDER}`,
-            borderRadius:        99,
-            padding:             "5px 5px 5px 20px",
-            boxShadow:           scrolled
+            pointerEvents:        "auto",
+            display:              "flex",
+            alignItems:           "center",
+            background:           scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.82)",
+            backdropFilter:       scrolled ? "blur(24px)" : "blur(12px)",
+            WebkitBackdropFilter: scrolled ? "blur(24px)" : "blur(12px)",
+            border:               `1px solid ${scrolled ? BORDER : "rgba(234,232,227,0.7)"}`,
+            borderRadius:         99,
+            padding:              "5px 5px 5px 20px",
+            boxShadow:            scrolled
               ? "0 8px 40px rgba(0,0,0,0.13), 0 1px 0 rgba(0,0,0,0.05)"
-              : "0 4px 24px rgba(0,0,0,0.08), 0 1px 0 rgba(0,0,0,0.03)",
-            transition:          "box-shadow 0.35s ease",
+              : "0 4px 24px rgba(0,0,0,0.06), 0 1px 0 rgba(0,0,0,0.02)",
+            transition:           "background 0.4s ease, box-shadow 0.35s ease, border-color 0.4s ease",
           }}
         >
-          {/* Logo — Tracking: logo klik = terug naar home (navigatie reset) */}
           <Link
             href="/"
             id="nav-logo"
@@ -236,7 +320,6 @@ export default function GlobalNavbar() {
             JH<span style={{ color: ACCENT }}>.</span>
           </Link>
           <div style={{ width: 1, height: 18, background: BORDER, margin: "0 16px", flexShrink: 0 }} />
-          {/* Recruiter-friendly nav: Home | Work★ | Contact */}
           <nav style={{ display: "flex", alignItems: "center", gap: 2 }}>
             {MAIN_LINKS.map((l) => (
               <PillLink
@@ -247,12 +330,13 @@ export default function GlobalNavbar() {
                 id={l.id}
                 analyticsLabel={l.analyticsLabel}
                 highlight={l.highlight}
+                cta={l.cta}
               />
             ))}
           </nav>
         </motion.div>
 
-        {/* Dark utility pill — secundaire navigatie (teruggedrongen, visueel afgescheiden) */}
+        {/* Dark utility pill */}
         <motion.div
           initial={{ y: -70, opacity: 0 }}
           animate={{ y: 0,   opacity: 1 }}
@@ -283,14 +367,7 @@ export default function GlobalNavbar() {
               )}
             </div>
           ))}
-          <div style={{
-            width: 32, height: 32, borderRadius: "50%", background: ACCENT,
-            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-          }}>
-            <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.02em" }}>
-              JH
-            </span>
-          </div>
+          <ProfileAvatar pathname={pathname} />
         </motion.div>
       </div>
 
@@ -322,7 +399,6 @@ export default function GlobalNavbar() {
           height:         "60px",
           width:          "100%",
         }}>
-          {/* Logo mobile — Tracking: logo klik op mobile */}
           <Link
             href="/"
             id="nav-mobile-logo"
@@ -335,9 +411,6 @@ export default function GlobalNavbar() {
           >
             JH<span style={{ color: ACCENT }}>.</span>
           </Link>
-
-          {/* Hamburger button
-              Tracking: open/sluit frequentie meet mobile menu engagement */}
           <button
             id="nav-hamburger"
             data-analytics-label={isOpen ? "nav_hamburger_close" : "nav_hamburger_open"}
@@ -361,7 +434,6 @@ export default function GlobalNavbar() {
 
       {/* ══════════════════════════════════════
           MOBILE FULL-SCREEN OVERLAY
-          Recruiter flow: Work en Contact staan bovenaan de lijst (positie 2 en 3)
       ══════════════════════════════════════ */}
       <AnimatePresence>
         {isOpen && (
@@ -372,19 +444,18 @@ export default function GlobalNavbar() {
             exit={{   opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              position:       "fixed",
-              inset:          0,
-              zIndex:         55,
-              background:     DARK,
-              flexDirection:  "column",
-              paddingTop:     72,
-              paddingBottom:  "2rem",
-              paddingLeft:    "1.75rem",
-              paddingRight:   "1.75rem",
-              overflowY:      "auto",
+              position:      "fixed",
+              inset:         0,
+              zIndex:        55,
+              background:    DARK,
+              flexDirection: "column",
+              paddingTop:    72,
+              paddingBottom: "2rem",
+              paddingLeft:   "1.75rem",
+              paddingRight:  "1.75rem",
+              overflowY:     "auto",
             }}
           >
-            {/* Nav links */}
             <nav style={{ flex: 1 }}>
               {ALL_LINKS.map((link, i) => (
                 <motion.div
@@ -396,7 +467,6 @@ export default function GlobalNavbar() {
                   <Link
                     href={link.href}
                     id={`nav-mobile-${link.id}`}
-                    // Tracking: welke mobile nav-items worden het meest geklikt? (Behavior Flow mobile)
                     data-analytics-label={`mobile_${link.analyticsLabel}`}
                     style={{
                       display:        "flex",
@@ -407,7 +477,6 @@ export default function GlobalNavbar() {
                       textDecoration: "none",
                     }}
                   >
-                    {/* Index */}
                     <span style={{
                       fontFamily:    "'Syne', sans-serif",
                       fontSize:      11,
@@ -420,8 +489,6 @@ export default function GlobalNavbar() {
                     }}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
-
-                    {/* Label */}
                     <span style={{
                       fontFamily:    "'Playfair Display', serif",
                       fontSize:      "clamp(2rem, 9vw, 3rem)",
@@ -455,17 +522,37 @@ export default function GlobalNavbar() {
                 gap:            "0.75rem",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <Link
+                href="/user-profile"
+                id="nav-mobile-profile-footer"
+                data-analytics-label="nav_mobile_profile_footer_click"
+                style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
+              >
                 <div style={{
-                  width: 28, height: 28, borderRadius: "50%", background: ACCENT,
-                  display: "flex", alignItems: "center", justifyContent: "center",
+                  width:          28,
+                  height:         28,
+                  borderRadius:   "50%",
+                  background:     ACCENT,
+                  display:        "flex",
+                  alignItems:     "center",
+                  justifyContent: "center",
+                  flexShrink:     0,
                 }}>
-                  <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 9, fontWeight: 700, color: "#fff" }}>JH</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
                 </div>
-                <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 12, fontWeight: 700, color: "#fff" }}>
-                  Joaquin Holthof
-                </span>
-              </div>
+                <div>
+                  <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 12, fontWeight: 700, color: "#fff" }}>
+                    Mijn profiel
+                  </div>
+                  <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 1 }}>
+                    user-profile →
+                  </div>
+                </div>
+              </Link>
               <span style={{
                 fontFamily:    "'Syne', sans-serif",
                 fontSize:      11,

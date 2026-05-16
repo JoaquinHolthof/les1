@@ -187,8 +187,8 @@ function FloatingCard({
     >
       {/* Continuous float */}
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4 + delay, repeat: Infinity, ease: "easeInOut", delay: delay * 0.5 }}
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 5 + delay, repeat: Infinity, ease: "easeInOut", delay: delay * 0.5 }}
         style={{
           width,
           background: SURFACE,
@@ -653,13 +653,13 @@ export default function HomePage() {
               <div style={{ position: "relative", display: "inline-flex" }}>
                 {/* Pulse ring — verhoogt click-through rate op hero CTA */}
                 <motion.div
-                  animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0, 0.5] }}
-                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", repeatDelay: 0.6 }}
+                  animate={{ scale: [1, 1.09, 1], opacity: [0.28, 0, 0.28] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeOut", repeatDelay: 1.2 }}
                   style={{
                     position:     "absolute",
                     inset:        -7,
                     borderRadius: 99,
-                    border:       `2px solid ${ACCENT}`,
+                    border:       `1.5px solid ${ACCENT}`,
                     pointerEvents: "none",
                     zIndex:       0,
                   }}
@@ -696,7 +696,7 @@ export default function HomePage() {
           <div style={{ position: "relative", width: 1, height: 60, background: BORDER, overflow: "hidden" }}>
             <motion.div
               animate={{ y: ["-100%", "200%"] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
               style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: ACCENT, borderRadius: 99 }}
             />
           </div>
@@ -726,6 +726,102 @@ export default function HomePage() {
                 {tech}
               </span>
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: ACCENT, flexShrink: 0 }} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          3.5 ABOUT ME
+      ══════════════════════════════════════════════════════ */}
+      <section style={{
+        borderBottom:    `1px solid ${BORDER}`,
+        padding:         isMobile ? "4rem 1.5rem" : "6rem 4rem",
+        display:         "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+        gap:             isMobile ? "3rem" : "5rem",
+        alignItems:      "center",
+      }}>
+        {/* Left: tekst */}
+        <div>
+          <div style={{
+            fontFamily:    "'Syne', sans-serif",
+            fontSize:      11,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color:         MUTED,
+            marginBottom:  "1rem",
+            display:       "flex",
+            alignItems:    "center",
+            gap:           10,
+          }}>
+            <span style={{ display: "inline-block", width: 20, height: 1, background: ACCENT }} />
+            Over mij
+          </div>
+
+          <h2 style={{
+            fontFamily:    "'Playfair Display', serif",
+            fontSize:      "clamp(2.25rem, 5vw, 3.25rem)",
+            fontWeight:    700,
+            fontStyle:     "italic",
+            letterSpacing: "-0.02em",
+            lineHeight:    1.08,
+            color:         FG,
+            margin:        "0 0 1.75rem",
+          }}>
+            Joaquin<span style={{ color: ACCENT }}>.</span>
+          </h2>
+
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: MUTED, margin: "0 0 1.25rem" }}>
+            Ik ben een creatief-technische designer uit Antwerpen met een passie
+            voor interface design, interactie en digitale storytelling. Ik geloof
+            dat goede design niet alleen mooi is, maar ook meet&aacute;l werkt.
+          </p>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: MUTED, margin: 0 }}>
+            Momenteel studeer ik Grafische &amp; Digitale Media en focus ik mij op
+            het bouwen van producten die gebruikers écht iets bijbrengen — van concept tot code.
+          </p>
+        </div>
+
+        {/* Right: info tabel */}
+        <div>
+          {[
+            { label: "Studierichting", value: "Grafische & Digitale Media" },
+            { label: "Locatie",        value: "Antwerpen, België"          },
+            { label: "Focus",          value: "UI/UX · Front-end dev"      },
+            { label: "Beschikbaar",    value: "Stage & freelance projecten" },
+          ].map(({ label, value }) => (
+            <div
+              key={label}
+              style={{
+                display:       "flex",
+                justifyContent: "space-between",
+                alignItems:    "center",
+                padding:       "1.1rem 0",
+                borderBottom:  `1px solid ${BORDER}`,
+                gap:           "1rem",
+              }}
+            >
+              <span style={{
+                fontFamily:    "'Syne', sans-serif",
+                fontSize:      11,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color:         MUTED,
+                flexShrink:    0,
+              }}>
+                {label}
+              </span>
+              <span style={{
+                fontFamily:    "'Syne', sans-serif",
+                fontSize:      13,
+                fontWeight:    700,
+                letterSpacing: "-0.01em",
+                color:         FG,
+                textAlign:     "right",
+              }}>
+                {value}
+              </span>
             </div>
           ))}
         </div>
